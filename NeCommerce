@@ -1,0 +1,115 @@
+<?php
+/*
+*Plugin Name:         NeCommerce
+*Plugin URI:          https://www.nitrotech.live.com
+*Author:              NitroTech
+*Author URI:          https:/www.nitrotech.live.com
+*Description:         THis plugin is for create the ecommerce site.
+*Version:             1.0.0
+*Requires at least:   5.2
+*Require PHP:         7.2
+*License:             GPL v2 or later
+* License URI:        https://www.gnu.org/licenses/gpl-2.0.html
+* Text Domain:        my-basics-plugin
+* Domain Path:        /languages
+*/
+defined('ABSPATH') || exit;
+// defined pathe
+define('NeC_URL', plugin_dir_url(__FILE__));
+// all action which run in this plugin 
+// add_action('admin_enqueue_scripts', 'NeC_admin_styles');
+add_action('admin_head', 'NeC_admin_head', 10);
+add_action('admin_footer', 'NeC_admin_p_add_footer');
+// enqueing the scripts
+if (is_admin() && !empty($_SERVER['PHP_SELF']) && 'upload.php' !== basename($_SERVER['PHP_SELF'])) {
+    function NeC_add_prodect_list_content()
+    {
+        wp_enqueue_media();
+        wp_enqueue_style('NeC_boot_style', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', [], 1.0, true);
+        // wp_deregister_script('jquery');
+        wp_register_script('NeC_jquery_script', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js', [], 1.0, false);
+        wp_enqueue_script('NeC_jquery_script');
+    }
+    add_action('admin_enqueue_scripts', 'NeC_add_prodect_list_content');
+}
+
+// admin menu page
+function NeC_init_function()
+{
+    add_menu_page(
+        'Products',
+        'N Prodects',
+        'manage_options',
+        'NeC_p_add_item',
+        'Nec_prodect',
+        'dashicons-block-default',
+        6
+    );
+}
+add_action('admin_menu', 'NeC_init_function');
+function Nec_prodect()
+{
+
+?>
+    <div class="wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <div class="img-fluid">
+                        <img src="" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- second row -->
+            <div class="row">
+                <div class="col-12">
+                    <h4>About insert the Products into Shop page</h4>
+                    <p>Dear Sir</p>
+                    <p>We warmly welcome to you for using our prodect and we are all the time connected with you to install to end guid please if you found any issue init please contact us with arguntly that we solve it properly.
+                        Please contact us on <a href="https://www.nitrotech.live.com">NitroTech Orgnization Limited</a>
+                    </p>
+                </div>
+            </div>
+            <!-- third row -->
+            <div class="row">
+                <div class="col-12">
+                    <div id="NeC_prodect_form">
+                        <form action="" enctype="multipart/form-data" method="Post">
+                            <p>Product Title</p>
+                            <input type="text" name="P_title" id="" required>
+                            <p>Product initial price</p>
+                            <input type="text" name="P_ini_price" id="">
+                            <p>Product Current Price</p>
+                            <input type="text" name="P_current_price" id="" required>
+                            <p>Product Short Desc</p>
+                            <input type="text" name="P_Short_desc" id="" required>
+                            <p>Product Long desc</p>
+                            <input type="text" name="P_Long_Desc" id="">
+                            <p>Product Images</p>
+                            <input type="button" name="P_File" id="P_File" value="Upload Image">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php
+}
+function NeC_admin_head()
+{
+}
+function NeC_admin_p_add_footer()
+{
+?>
+    <script>
+        jQuery(document).ready(function() {
+            console.log(wp.madia());
+            wp.madia({
+                title: "Uploade Image",
+                multiple: false
+            }).open();
+        });
+    </script>
+<?php
+}
